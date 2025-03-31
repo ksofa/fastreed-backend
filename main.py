@@ -19,12 +19,7 @@ app = FastAPI(title="FastReed API")
 # Настройка CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://fastreed-4xcekvvccnyypqbbjbrpoqn4yw1b.vercel.app",  # Vercel фронтенд
-        "https://t.me",  # Telegram
-        "https://telegram.org",  # Telegram
-        "http://localhost:3000",  # Локальный фронтенд для разработки
-    ],
+    allow_origins=["*"],  # Разрешаем все домены для тестирования
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
