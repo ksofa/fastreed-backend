@@ -50,6 +50,10 @@ def extract_text_from_txt(file_path: str) -> str:
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.read()
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "FastReed API is running"}
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     if file.size > MAX_FILE_SIZE:
