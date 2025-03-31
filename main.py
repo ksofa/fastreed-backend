@@ -7,7 +7,12 @@ from ebooklib import epub
 from docx import Document
 import os
 import tempfile
+import logging
 from typing import Optional
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="FastReed API")
 
@@ -22,6 +27,12 @@ app.add_middleware(
 
 # Максимальный размер файла (10MB)
 MAX_FILE_SIZE = 10 * 1024 * 1024
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Starting FastReed API...")
+    logger.info(f"Current directory: {os.getcwd()}")
+    logger.info(f"Files in directory: {os.listdir('.')}")
 
 def extract_text_from_pdf(file_path: str) -> str:
     doc = fitz.open(file_path)
@@ -52,6 +63,7 @@ def extract_text_from_txt(file_path: str) -> str:
 
 @app.get("/")
 async def root():
+    logger.info("Root endpoint called")
     return {"status": "ok", "message": "FastReed API is running"}
 
 @app.post("/upload")
